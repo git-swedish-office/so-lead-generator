@@ -1,0 +1,4 @@
+FROM adoptopenjdk/openjdk11:latest
+LABEL org.opencontainers.image.authors="admin@swedishoffice.com"
+COPY artifacts/so-ciam-manager.jar so-ciam-manager.jar
+ENTRYPOINT ["java","-jar","so-ciam-manager.jar"]

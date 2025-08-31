@@ -1,0 +1,4 @@
+FROM openjdk:11-jdk-alpine
+MAINTAINER coventgardendentalspa.co.uk
+COPY artifacts/touchpoints-business-1.0.0.jar touchpoints-business-1.0.0.jar
+ENTRYPOINT ["java","-jar","touchpoints-business-1.0.0.jar"]

@@ -1,0 +1,6 @@
+services:
+  springboot:
+    container_name: spring-boot-ec2-starter
+    image: {hub-username}/spring-boot-ec2-starter:1.0
+    ports:
+      - 8082:8082
