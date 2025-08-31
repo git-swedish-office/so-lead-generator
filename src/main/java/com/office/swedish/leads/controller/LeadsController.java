@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URL;
+import java.util.List;
 
 @RestController
 public class LeadsController {
@@ -32,13 +33,11 @@ public class LeadsController {
             // Swallow
         }
 
-        try {
-            this.dynamicOAuth2ClientRegistrationRepository.findByRegistrationId(
-                    clientRegistrationId);
-
-            return ResponseEntity.created(URI.create("/feedback-success")).build();
-        } catch (SOSecurityException sse) {
-            return ResponseEntity.badRequest().body(sse.getMessage());
+        if (!this.dynamicOAuth2ClientRegistrationRepository.isAllowed(
+                clientRegistrationId)) {
+            return ResponseEntity.badRequest().build();
         }
+
+        return ResponseEntity.created(URI.create("/feedback-success")).build();
     }
 }
