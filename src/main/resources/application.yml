@@ -1,0 +1,10 @@
+spring:
+  datasource:
+    username: username
+    password: password
+    url: url
+
+  flyway:
+    user: user
+    password: password
+    url: url
