@@ -51,6 +51,10 @@ public final class Feedback implements Serializable {
         this.customerEmail = customerEmail;
     }
 
+    public static Builder create() {
+        return new Builder();
+    }
+
     public Integer getId() {
         return this.id;
     }
@@ -152,7 +156,7 @@ public final class Feedback implements Serializable {
     }
 
     public static class Builder {
-        private Integer id;
+        private Integer feedbackId;
         private VisitFrequency visitFrequency;
         private HowHeard howHeard;
         private Quality overallExperience;
@@ -166,8 +170,8 @@ public final class Feedback implements Serializable {
         private String customerName;
         private String customerEmail;
 
-        public Builder withId(final Integer id) {
-            this.id = id;
+        public Builder withFeedbackId(final Integer feedbackId) {
+            this.feedbackId = feedbackId;
             return this;
         }
 
@@ -232,7 +236,7 @@ public final class Feedback implements Serializable {
         }
 
         public Feedback build() {
-            return new Feedback(this.id, this.visitFrequency, this.howHeard, this.overallExperience, this.foodQuality,
+            return new Feedback(this.feedbackId, this.visitFrequency, this.howHeard, this.overallExperience, this.foodQuality,
                     this.serviceQuality, this.atmosphere, this.valueMoney, this.enjoyedMost, this.improvements,
                     this.recommend, this.customerName, this.customerEmail);
         }
