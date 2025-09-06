@@ -1,8 +1,9 @@
 package com.office.swedish.leads.controller;
 
-import com.office.swedish.clients.exceptions.SOSecurityException;
 import com.office.swedish.clients.registration.IDynamicOAuth2ClientRegistrationRepository;
 import com.office.swedish.leads.dto.forms.Feedback;
+import com.office.swedish.leads.exception.LeadServiceException;
+import com.office.swedish.leads.service.ILeadService;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -13,14 +14,16 @@ import org.springframework.web.bind.annotation.RestController;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URL;
-import java.util.List;
 
 @RestController
-public class LeadsController {
+public class LeadController {
+    private ILeadService leadService;
     private final IDynamicOAuth2ClientRegistrationRepository dynamicOAuth2ClientRegistrationRepository;
 
     @Autowired
-    public LeadsController(final IDynamicOAuth2ClientRegistrationRepository dynamicOAuth2ClientRegistrationRepository) {
+    public LeadController(final ILeadService leadService,
+                          final IDynamicOAuth2ClientRegistrationRepository dynamicOAuth2ClientRegistrationRepository) {
+        this.leadService = leadService;
         this.dynamicOAuth2ClientRegistrationRepository = dynamicOAuth2ClientRegistrationRepository;
     }
 
@@ -36,6 +39,12 @@ public class LeadsController {
         if (!this.dynamicOAuth2ClientRegistrationRepository.isAllowed(
                 clientRegistrationId)) {
             return ResponseEntity.badRequest().build();
+        }
+
+        try {
+            this.leadService.addFeedback(feedback);
+        } catch (LeadServiceException lse) {
+            return ResponseEntity.internalServerError().body("FAILED_TO_ADD_FEEDBACK");
         }
 
         return ResponseEntity.created(URI.create("/feedback-success")).build();

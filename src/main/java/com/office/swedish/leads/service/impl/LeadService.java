@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class LeadService implements ILeadService {
-    private IFeedbackRepository feedbackRepository;
+    private final IFeedbackRepository feedbackRepository;
 
     @Autowired
     public LeadService(final IFeedbackRepository feedbackRepository) {
